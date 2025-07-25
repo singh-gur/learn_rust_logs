@@ -9,20 +9,19 @@ fn divide(a: i32, b: i32) -> Result<i32, Error> {
     }
 }
 
-fn read_file(file_path: String) -> Result<String, Error> {
-    read_to_string(file_path)
-}
-
-fn write_file(file_path: String, content: &str) -> Result<(), Error> {
-    match write(file_path, content) {
-        Ok(_) => Ok(()),
-        Err(e) => Err(e),
+fn extract_errors_from_logs(logs: &String) -> Vec<String> {
+    let mut errors = vec![];
+    for line in logs.lines() {
+        if line.contains("ERROR") {
+            errors.push(line.to_string());
+        }
     }
+    errors
 }
 
 fn main() {
     match read_to_string("data/logs.txt") {
-        Ok(data) => println!("File content:\n{:#?}", data),
+        Ok(data) => println!("Errors:\n{:#?}", extract_errors_from_logs(&data)),
         Err(e) => eprintln!("Error reading file: {}", e),
     }
     match divide(4, 2) {
