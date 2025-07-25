@@ -21,7 +21,7 @@ fn write_file(file_path: String, content: &str) -> Result<(), Error> {
 }
 
 fn main() {
-    match read_file("data/logs.txt".to_string()) {
+    match read_to_string("data/logs.txt") {
         Ok(data) => println!("File content:\n{:#?}", data),
         Err(e) => eprintln!("Error reading file: {}", e),
     }
