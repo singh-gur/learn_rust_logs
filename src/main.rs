@@ -1,23 +1,7 @@
-use std::fs::{read_to_string, write};
-use std::io::Error;
+use std::fs::read_to_string;
 
-fn divide(a: i32, b: i32) -> Result<i32, Error> {
-    if b == 0 {
-        Err(Error::other("Division by zero is not allowed"))
-    } else {
-        Ok(a / b)
-    }
-}
-
-fn extract_errors_from_logs(logs: &String) -> Vec<String> {
-    let mut errors = vec![];
-    for line in logs.lines() {
-        if line.contains("ERROR") {
-            errors.push(line.to_string());
-        }
-    }
-    errors
-}
+mod log_handler;
+use log_handler::utils::{divide, extract_errors_from_logs};
 
 fn main() {
     match read_to_string("data/logs.txt") {
