@@ -1,19 +1,11 @@
-use std::fs::read_to_string;
+use std::fs::{read_to_string, write};
 
 mod log_handler;
-use log_handler::utils::{divide, extract_log_type};
+use log_handler::utils::extract_log_type;
 
 fn main() {
-    match read_to_string("data/logs.txt") {
-        Ok(data) => println!("Warnings:\n{:#?}", extract_log_type(&data, "WARNING")),
-        Err(e) => eprintln!("Error reading file: {}", e),
-    }
-    match divide(4, 2) {
-        Ok(result) => println!("Division result: {}", result),
-        Err(e) => eprintln!("Error dividing numbers: {}", e),
-    }
-    match divide(4, 0) {
-        Ok(result) => println!("Division result: {}", result),
-        Err(e) => eprintln!("Error dividing numbers: {}", e),
-    }
+    let text = read_to_string("data/run.log").expect("Failed to read logs");
+
+    let error_logs = extract_log_type(text.as_str(), "ERROR");
+    write("data/errors.log", error_logs.join("\n")).expect("Unable to write error logs");
 }
